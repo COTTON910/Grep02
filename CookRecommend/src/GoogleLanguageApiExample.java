@@ -16,29 +16,29 @@ public class GoogleLanguageApiExample {
     private static final String API_URL = "https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent";
 
     public static void main(String[] args) throws Exception {
-        // ƒvƒƒ“ƒvƒg‚Ì“à—e‚ğ\’z
+        // ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã®å†…å®¹ã‚’æ§‹ç¯‰
         String promptText = "Generate a recipe using the following ingredients: tomatoes, onions, chicken.";
         
 
-        // ƒŠƒNƒGƒXƒgƒ{ƒfƒB‚ğ\’z
+        // ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒœãƒ‡ã‚£ã‚’æ§‹ç¯‰
         JSONObject requestBody = new JSONObject();
-        requestBody.put("model", "generateContent"); // ƒ‚ƒfƒ‹ID‚ğw’è
+        requestBody.put("model", "generateContent"); // ãƒ¢ãƒ‡ãƒ«IDã‚’æŒ‡å®š
 
-        // contents ”z—ñ‚É Content ƒIƒuƒWƒFƒNƒg‚ğŠÜ‚ß‚é
+        // contents é…åˆ—ã« Content ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã‚’å«ã‚ã‚‹
         JSONArray contents = new JSONArray();
         JSONObject contentObject = new JSONObject();
 
-        // parts[] ‚ğŠÜ‚Ş Content
+        // parts[] ã‚’å«ã‚€ Content
         JSONArray parts = new JSONArray();
         JSONObject part = new JSONObject();
-        part.put("text", promptText); // ƒvƒƒ“ƒvƒg‚ÌƒeƒLƒXƒg‚ğ parts[] ‚É’Ç‰Á
+        part.put("text", promptText); // ãƒ—ãƒ­ãƒ³ãƒ—ãƒˆã®ãƒ†ã‚­ã‚¹ãƒˆã‚’ parts[] ã«è¿½åŠ 
         parts.put(part);
         contentObject.put("parts", parts);
         contents.put(contentObject);
 
         requestBody.put("contents", contents);
 
-        // APIƒŠƒNƒGƒXƒg‚ğ‘—M
+        // APIãƒªã‚¯ã‚¨ã‚¹ãƒˆã‚’é€ä¿¡
         String response = sendPostRequest(API_URL, requestBody.toString());
         System.out.println("Response: " + response);
     }
@@ -51,7 +51,7 @@ public class GoogleLanguageApiExample {
         String privateKey = credentialsJson.getString("private_key");
 
         String assertion = createJwt(clientEmail, privateKey);
-        System.out.println("Generated JWT: " + assertion); // ƒfƒoƒbƒO—p
+        System.out.println("Generated JWT: " + assertion); // ãƒ‡ãƒãƒƒã‚°ç”¨
 
         String tokenUrl = "https://oauth2.googleapis.com/token";
         String data = "grant_type=urn%3Aietf%3Aparams%3Aoauth%3Agrant-type%3Ajwt-bearer&assertion=" + assertion;
@@ -74,7 +74,7 @@ public class GoogleLanguageApiExample {
                 while ((errorLine = errorReader.readLine()) != null) {
                     errorResponse.append(errorLine.trim());
                 }
-                throw new RuntimeException("¸”s‚µ‚Ü‚µ‚½: HTTPƒGƒ‰[ƒR[ƒh : " + responseCode + ", ƒGƒ‰[Ú×: " + errorResponse.toString());
+                throw new RuntimeException("å¤±æ•—ã—ã¾ã—ãŸ: HTTPã‚¨ãƒ©ãƒ¼ã‚³ãƒ¼ãƒ‰ : " + responseCode + ", ã‚¨ãƒ©ãƒ¼è©³ç´°: " + errorResponse.toString());
             }
         }
 
@@ -92,26 +92,26 @@ public class GoogleLanguageApiExample {
 
     private static String createJwt(String clientEmail, String privateKeyStr) {
         try {
-            // ”é–§Œ®‚Ì•¶š—ñ‚ğRSAPrivateKey‚É•ÏŠ·
+            // ç§˜å¯†éµã®æ–‡å­—åˆ—ã‚’RSAPrivateKeyã«å¤‰æ›
             RSAPrivateKey privateKey = loadPrivateKey(privateKeyStr);
 
-            // ƒwƒbƒ_[‚Ìİ’è (JWT‚ÌƒAƒ‹ƒSƒŠƒYƒ€‚È‚Ç)
-            Algorithm algorithm = Algorithm.RSA256(null, privateKey); // ŒöŠJŒ®‚Ínull‚Éİ’è
+            // ãƒ˜ãƒƒãƒ€ãƒ¼ã®è¨­å®š (JWTã®ã‚¢ãƒ«ã‚´ãƒªã‚ºãƒ ãªã©)
+            Algorithm algorithm = Algorithm.RSA256(null, privateKey); // å…¬é–‹éµã¯nullã«è¨­å®š
 
-            // Œ»İ (UnixƒGƒ|ƒbƒNŠÔ)
+            // ç¾åœ¨æ™‚åˆ» (Unixã‚¨ãƒãƒƒã‚¯æ™‚é–“)
             long now = System.currentTimeMillis();
             Date issuedAt = new Date(now);
-            Date expiresAt = new Date(now + 3600000); // 1ŠÔŒã‚ÉŠúŒÀ‚ğİ’è
+            Date expiresAt = new Date(now + 3600000); // 1æ™‚é–“å¾Œã«æœŸé™ã‚’è¨­å®š
 
-            // JWT‚ÌƒyƒCƒ[ƒhİ’è
+            // JWTã®ãƒšã‚¤ãƒ­ãƒ¼ãƒ‰è¨­å®š
             return JWT.create()
-                    .withIssuer(clientEmail) // ”­sÒ (ƒT[ƒrƒXƒAƒJƒEƒ“ƒg‚Ìƒ[ƒ‹ƒAƒhƒŒƒX)
-                    .withSubject(clientEmail) // ƒTƒuƒWƒFƒNƒg (ƒT[ƒrƒXƒAƒJƒEƒ“ƒg‚Ìƒ[ƒ‹ƒAƒhƒŒƒX)
-                    .withAudience("https://oauth2.googleapis.com/token") // ƒg[ƒNƒ“‚ÌƒI[ƒfƒBƒGƒ“ƒX
-                    .withClaim("scope", "https://www.googleapis.com/auth/generative-language") // ƒXƒR[ƒv‚ğ’Ç‰Á
-                    .withIssuedAt(issuedAt) // ”­s“ú
-                    .withExpiresAt(expiresAt) // ŠúŒÀi1ŠÔŒãj
-                    .sign(algorithm); // –¼
+                    .withIssuer(clientEmail) // ç™ºè¡Œè€… (ã‚µãƒ¼ãƒ“ã‚¹ã‚¢ã‚«ã‚¦ãƒ³ãƒˆã®ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹)
+                    .withSubject(clientEmail) // ã‚µãƒ–ã‚¸ã‚§ã‚¯ãƒˆ (ã‚µãƒ¼ãƒ“ã‚¹ã‚¢ã‚«ã‚¦ãƒ³ãƒˆã®ãƒ¡ãƒ¼ãƒ«ã‚¢ãƒ‰ãƒ¬ã‚¹)
+                    .withAudience("https://oauth2.googleapis.com/token") // ãƒˆãƒ¼ã‚¯ãƒ³ã®ã‚ªãƒ¼ãƒ‡ã‚£ã‚¨ãƒ³ã‚¹
+                    .withClaim("scope", "https://www.googleapis.com/auth/generative-language") // ã‚¹ã‚³ãƒ¼ãƒ—ã‚’è¿½åŠ 
+                    .withIssuedAt(issuedAt) // ç™ºè¡Œæ—¥æ™‚
+                    .withExpiresAt(expiresAt) // æœŸé™ï¼ˆ1æ™‚é–“å¾Œï¼‰
+                    .sign(algorithm); // ç½²å
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -130,20 +130,20 @@ public class GoogleLanguageApiExample {
 
     private static String sendPostRequest(String apiUrl, String requestBody) throws Exception {
         URL url = new URL(apiUrl);
-        String ACCESS_TOKEN = getAccessToken("C:\\Users\\orang\\Downloads\\gen-lang-client-0738237564-5efade0e18c8.json");
+        String ACCESS_TOKEN = getAccessToken("YOUR_JSON_KEY");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
         connection.setRequestMethod("POST");
         connection.setRequestProperty("Authorization", "Bearer " + ACCESS_TOKEN);
         connection.setRequestProperty("Content-Type", "application/json");
         connection.setDoOutput(true);
 
-        // ƒŠƒNƒGƒXƒgƒ{ƒfƒB‚ğ‘—M
+        // ãƒªã‚¯ã‚¨ã‚¹ãƒˆãƒœãƒ‡ã‚£ã‚’é€ä¿¡
         try (OutputStream os = connection.getOutputStream()) {
             byte[] input = requestBody.getBytes("utf-8");
             os.write(input, 0, input.length);
         }
 
-        // ƒŒƒXƒ|ƒ“ƒX‚ğæ“¾
+        // ãƒ¬ã‚¹ãƒãƒ³ã‚¹ã‚’å–å¾—
         int responseCode = connection.getResponseCode();
         if (responseCode != 200) {
             try (BufferedReader errorReader = new BufferedReader(new InputStreamReader(connection.getErrorStream(), "utf-8"))) {
@@ -152,7 +152,7 @@ public class GoogleLanguageApiExample {
                 while ((errorLine = errorReader.readLine()) != null) {
                     errorResponse.append(errorLine.trim());
                 }
-                throw new RuntimeException("HTTPƒGƒ‰[: " + responseCode + ", Ú×: " + errorResponse.toString());
+                throw new RuntimeException("HTTPã‚¨ãƒ©ãƒ¼: " + responseCode + ", è©³ç´°: " + errorResponse.toString());
             }
         }
 
